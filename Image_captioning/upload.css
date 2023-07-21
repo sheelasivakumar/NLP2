@@ -1,0 +1,115 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('templates/pexels-johannes-plenio-1103970.jpg');
+}
+.container{
+    max-width: 400px;
+    width: 100%;
+    background-color: white;
+    padding:30px;
+    border-radius: 20px;
+}
+.img-area{
+    position: relative;
+    width: 100%;
+    height: 240px;
+    background: rgb(201, 198, 198);
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.img-area .icon{
+    font-size: 40px;   
+}
+
+.img-area h3{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.img-area p{
+    color:#999 ;
+}
+
+.img-area img{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 100;
+}
+
+.img-area::before{
+    content: attr(data-img);
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: all .3s ease;
+    z-index: 200;
+}
+.img-area.active:hover::before{
+    opacity: 1;
+}
+
+
+.select-image{
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    border-radius: 10px;
+    background: yellowgreen;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all .3s ease;
+}
+
+.select-image:hover{
+    background: rgb(178, 222, 91);
+}
+
+.cap-gen{
+    display: block;
+    width: 100%;
+    padding: 16px 0;
+    border-radius: 10px;
+    background: yellowgreen;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all .3s ease;
+}
+.cap-gen:hover{
+    background: rgb(178, 222, 91);
+}

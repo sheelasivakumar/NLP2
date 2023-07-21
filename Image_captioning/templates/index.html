@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Captioning</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        *{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background:url("/static/pexels-johannes-plenio-1103970.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.container{
+    max-width: 400px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.4);
+    padding:30px;
+    border-radius: 24px;
+}
+.img-area{
+    position: relative;
+    width: 100%;
+    height: 240px;
+    background: rgba(239, 239, 239, 0.814);
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: #999;
+}
+
+.cap-gen{
+    display: block;
+    color:white;
+    width: 100%;
+    padding: 16px 0;
+    border-radius: 10px;
+    background: #2D586D;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all .3s ease;
+}
+
+.cap-gen:hover{
+    background:#043854;
+}
+#file{
+    margin-top: 20px;
+    padding: 5px;
+}
+.img-area img{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 100;
+}
+.img-area::before{
+    content: attr(data-img);
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: all .3s ease;
+	z-index: 200;
+}
+.img-area.active:hover::before{
+    opacity: 1;
+}
+.img-area h3{
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.img-area p{
+    color:#999 ;
+}
+.result{
+    max-width: 400px;
+    width: 100%;
+    height:450px;
+    padding:30px;
+    border-radius: 24px;
+    margin-left: 30px;
+}
+.result img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <div class="img-area">
+            <h3>Upload image</h3>
+        </div>
+        <form method = "POST" action="/" enctype="multipart/form-data">
+            <input type="file" id = "file" name= "userfile" accept="image/">
+            <button class="cap-gen" type="submit">Generate Captions</button>
+        </form>
+    </div>
+    <div class="result">
+        {% if caption %}
+            <h2>Generated Caption:</h2>
+            <p>{{ caption['caption']}}</p><br>
+            <img src="{{caption['image']}}">
+        {% endif %}
+        
+        {% if error %}
+            <h2>Error:</h2>
+            <p>{{ error }}</p>
+        {% endif %}
+    </div>
+    <script>
+        const inputFile = document.querySelector('#file');
+        const imgArea = document.querySelector('.img-area');
+
+        inputFile.addEventListener('change',function () {
+            const image = this.files[0];
+            console.log(image);
+            const reader = new FileReader();
+            reader.onload = () => {
+                const allImg = imgArea.querySelectorAll('img');
+                allImg.forEach(item => item.remove());
+                const imgUrl = reader.result;
+                const img = document.createElement('img');
+                img.src = imgUrl;
+                imgArea.appendChild(img);
+                imgArea.classList.add('active');
+                imgArea.dataset.img = image.name;
+            }
+            reader.readAsDataURL(image);
+        })
+    </script>
+</body>
+</html>
